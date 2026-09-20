@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LogOut, Moon, Sun, type LucideIcon } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { useTheme } from '@/hooks/useTheme';
 
 export interface SidebarItem {
@@ -64,10 +64,30 @@ export function Sidebar({
   const { theme, toggle } = useTheme();
   const initial = userName.trim().charAt(0).toUpperCase() || '?';
   const isDark = theme === 'dark';
+  const asideRef = useRef<HTMLElement>(null);
+
+  /**
+   * `:focus-within` keeps the rail expanded so a keyboard user tabbing
+   * through nav items can still read labels — but clicking a link or the
+   * theme toggle also leaves that element focused, and focus (unlike hover)
+   * doesn't clear on its own when the mouse moves away. Without this, the
+   * rail would stay expanded after any click until something else stole
+   * focus. Blurring on mouse-leave makes hover authoritative for mouse
+   * users while leaving pure keyboard navigation (which never fires
+   * `mouseleave` at all) unaffected.
+   */
+  const collapseOnMouseLeave = () => {
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && asideRef.current?.contains(active)) {
+      active.blur();
+    }
+  };
 
   return (
     <div className="min-h-dvh">
       <aside
+        ref={asideRef}
+        onMouseLeave={collapseOnMouseLeave}
         className="transition-ads group fixed inset-y-3 left-3 z-40 flex w-16 flex-col overflow-hidden rounded-xl bg-surface shadow-rail hover:w-64 focus-within:w-64"
         style={{ transitionProperty: 'width' }}
       >
