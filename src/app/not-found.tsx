@@ -4,8 +4,8 @@ export default function NotFound() {
   return (
     <main className="flex min-h-dvh items-center justify-center p-4">
       <div className="text-center">
-        <h1 className="text-lg font-semibold text-slate-900">Page not found</h1>
-        <p className="mt-2 text-sm text-slate-500">
+        <h1 className="text-lg font-semibold text-neutral-100">Page not found</h1>
+        <p className="mt-2 text-sm text-neutral-70">
           The page you are looking for does not exist.
         </p>
         <Link

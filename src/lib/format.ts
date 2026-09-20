@@ -38,14 +38,14 @@ export const formatPercent = (value: number): string => `${value.toFixed(value %
  * three in step so a green badge always means the same thing.
  */
 export const attendanceTone = {
-  present: { label: 'Present', className: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
-  partial: { label: 'Partial', className: 'bg-amber-100 text-amber-800 border-amber-200' },
-  absent: { label: 'Absent', className: 'bg-rose-100 text-rose-800 border-rose-200' },
+  present: { label: 'Present', className: 'bg-success-50 text-success-600' },
+  partial: { label: 'Partial', className: 'bg-warning-50 text-warning-600' },
+  absent: { label: 'Absent', className: 'bg-danger-50 text-danger-600' },
 } as const;
 
 export const classStatusTone = {
-  scheduled: { label: 'Scheduled', className: 'bg-slate-100 text-slate-700 border-slate-200' },
-  live: { label: 'Live', className: 'bg-red-100 text-red-700 border-red-200' },
-  ended: { label: 'Ended', className: 'bg-slate-100 text-slate-500 border-slate-200' },
-  cancelled: { label: 'Cancelled', className: 'bg-slate-100 text-slate-400 border-slate-200' },
+  scheduled: { label: 'Scheduled', className: 'bg-neutral-20 text-neutral-80' },
+  live: { label: 'Live', className: 'bg-danger-50 text-danger-600' },
+  ended: { label: 'Ended', className: 'bg-neutral-20 text-neutral-70' },
+  cancelled: { label: 'Cancelled', className: 'bg-neutral-20 text-neutral-50' },
 } as const;

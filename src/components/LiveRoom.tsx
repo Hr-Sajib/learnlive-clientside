@@ -192,7 +192,7 @@ function PresenceEstimate({
       <div className="mb-2 flex items-center justify-between gap-4">
         <span>
           {met ? (
-            <span className="font-medium text-emerald-400">
+            <span className="font-medium text-success-500">
               Attendance secured — {formatDuration(accumulatedMs.current)} in class
             </span>
           ) : (
@@ -216,7 +216,7 @@ function PresenceEstimate({
         aria-label="Your attendance progress"
       >
         <div
-          className={`h-full rounded-full transition-all duration-500 ${met ? 'bg-emerald-500' : 'bg-sky-500'}`}
+          className={`h-full rounded-full transition-all duration-500 ${met ? 'bg-success-500' : 'bg-brand-500'}`}
           style={{ width: `${pct}%` }}
         />
       </div>

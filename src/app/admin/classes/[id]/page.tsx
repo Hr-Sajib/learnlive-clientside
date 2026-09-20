@@ -39,7 +39,7 @@ export default function AdminClassDetailPage() {
     return (
       <RequireAuth role="admin">
         <AdminShell>
-          <div className="h-64 animate-pulse rounded-lg bg-slate-200" />
+          <div className="h-64 animate-pulse rounded-lg bg-neutral-30" />
         </AdminShell>
       </RequireAuth>
     );
@@ -49,7 +49,7 @@ export default function AdminClassDetailPage() {
     return (
       <RequireAuth role="admin">
         <AdminShell>
-          <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+          <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
             <p>{errorMessage(error)}</p>
             <button onClick={refetch} className="mt-2 font-medium underline">Try again</button>
           </div>
@@ -65,7 +65,7 @@ export default function AdminClassDetailPage() {
     <RequireAuth role="admin">
       <AdminShell>
         <Card title={cls.title}>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-neutral-70">
             This class is {cls.status === 'scheduled' ? 'scheduled' : 'cancelled'} and has not run yet.
           </p>
         </Card>
@@ -89,12 +89,12 @@ function LivePanel({ cls }: { cls: ClassSession }) {
       render: (row) => (
         <div className="flex items-center gap-2">
           <span
-            className={`inline-block h-2 w-2 rounded-full ${row.inRoom ? 'bg-emerald-500' : 'bg-slate-300'}`}
+            className={`inline-block h-2 w-2 rounded-full ${row.inRoom ? 'bg-success-600' : 'bg-neutral-40'}`}
             aria-hidden="true"
           />
           <div>
-            <div className="font-medium text-slate-900">{row.name}</div>
-            <div className="text-xs text-slate-500">{row.email}</div>
+            <div className="font-medium text-neutral-100">{row.name}</div>
+            <div className="text-xs text-neutral-70">{row.email}</div>
           </div>
         </div>
       ),
@@ -116,7 +116,7 @@ function LivePanel({ cls }: { cls: ClassSession }) {
       render: (row) => (
         <div className="flex items-center gap-2">
           <Badge tone={badgeTone[row.projectedStatus]}>{attendanceTone[row.projectedStatus].label}</Badge>
-          <span className="tabular-nums text-slate-600">{formatPercent(row.presencePct)}</span>
+          <span className="tabular-nums text-neutral-80">{formatPercent(row.presencePct)}</span>
         </div>
       ),
     },
@@ -130,14 +130,14 @@ function LivePanel({ cls }: { cls: ClassSession }) {
             <div>
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2.5 w-2.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-danger-500 opacity-75" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-danger-600" />
                 </span>
                 <Badge tone="red">{classStatusTone.live.label}</Badge>
-                {data && <span className="tabular-nums text-sm text-slate-500">{formatDuration(data.elapsedMs)}</span>}
+                {data && <span className="tabular-nums text-sm text-neutral-70">{formatDuration(data.elapsedMs)}</span>}
               </div>
-              <h1 className="mt-1 text-lg font-semibold text-slate-900">{cls.title}</h1>
-              <p className="text-sm text-slate-500">
+              <h1 className="mt-1 text-lg font-semibold text-neutral-100">{cls.title}</h1>
+              <p className="text-sm text-neutral-70">
                 {inRoom} of {rows.length} in the room
               </p>
             </div>
@@ -155,9 +155,9 @@ function LivePanel({ cls }: { cls: ClassSession }) {
           </div>
 
           {isLoading ? (
-            <div className="h-64 animate-pulse rounded-lg bg-slate-200" />
+            <div className="h-64 animate-pulse rounded-lg bg-neutral-30" />
           ) : error ? (
-            <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+            <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
               <p>{errorMessage(error)}</p>
               <button onClick={refetch} className="mt-2 font-medium underline">Try again</button>
             </div>
@@ -208,8 +208,8 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
       header: 'Student',
       render: (row) => (
         <div>
-          <div className="font-medium text-slate-900">{row.student.name}</div>
-          <div className="text-xs text-slate-500">{row.student.email}</div>
+          <div className="font-medium text-neutral-100">{row.student.name}</div>
+          <div className="text-xs text-neutral-70">{row.student.email}</div>
         </div>
       ),
     },
@@ -220,10 +220,10 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
       render: (row) => (
         <div className="flex items-center gap-2">
           <Badge tone={badgeTone[row.status]}>{attendanceTone[row.status].label}</Badge>
-          <span className={`tabular-nums ${row.overridden ? 'text-slate-400 line-through' : 'text-slate-600'}`}>
+          <span className={`tabular-nums ${row.overridden ? 'text-neutral-50 line-through' : 'text-neutral-80'}`}>
             {formatPercent(row.presencePct)}
           </span>
-          {row.overridden && <span className="text-xs text-slate-500">override</span>}
+          {row.overridden && <span className="text-xs text-neutral-70">override</span>}
         </div>
       ),
     },
@@ -246,8 +246,8 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
         <div className="space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h1 className="text-lg font-semibold text-slate-900">{cls.title}</h1>
-              <p className="text-sm text-slate-500">Attendance sheet</p>
+              <h1 className="text-lg font-semibold text-neutral-100">{cls.title}</h1>
+              <p className="text-sm text-neutral-70">Attendance sheet</p>
             </div>
             <Button variant="secondary" onClick={() => exportCsv(rows)}>
               Export CSV
@@ -266,9 +266,9 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
           )}
 
           {isLoading ? (
-            <div className="h-64 animate-pulse rounded-lg bg-slate-200" />
+            <div className="h-64 animate-pulse rounded-lg bg-neutral-30" />
           ) : error ? (
-            <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+            <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
               <p>{errorMessage(error)}</p>
               <button onClick={refetch} className="mt-2 font-medium underline">Try again</button>
             </div>
@@ -326,8 +326,8 @@ function OverrideDialog({
     <Modal open={!!row} onClose={onClose} title="Override attendance">
       {row && (
         <form onSubmit={handleSubmit(onConfirm)} className="space-y-4">
-          <p className="text-sm text-slate-600">
-            Overriding <span className="font-medium text-slate-900">{row.student.name}</span> (computed{' '}
+          <p className="text-sm text-neutral-80">
+            Overriding <span className="font-medium text-neutral-100">{row.student.name}</span> (computed{' '}
             {formatPercent(row.presencePct)}). The computed value is kept for the record.
           </p>
           <Select

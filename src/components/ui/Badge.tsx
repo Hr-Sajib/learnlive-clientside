@@ -2,17 +2,21 @@ import type { ReactNode } from 'react';
 
 type BadgeTone = 'green' | 'amber' | 'red' | 'slate';
 
+/**
+ * ADS's "Lozenge" is a tight rounded rectangle, not a full pill — that's
+ * the detail that makes a status chip read as Atlassian rather than generic.
+ */
 const toneClass: Record<BadgeTone, string> = {
-  green: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-  amber: 'bg-amber-100 text-amber-800 border-amber-200',
-  red: 'bg-rose-100 text-rose-800 border-rose-200',
-  slate: 'bg-slate-100 text-slate-600 border-slate-200',
+  green: 'bg-success-50 text-success-600',
+  amber: 'bg-warning-50 text-warning-600',
+  red: 'bg-danger-50 text-danger-600',
+  slate: 'bg-neutral-20 text-neutral-80',
 };
 
 export function Badge({ tone, children }: { tone: BadgeTone; children: ReactNode }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${toneClass[tone]}`}
+      className={`inline-flex items-center rounded-sm px-1.5 py-0.5 text-[11px] font-semibold tracking-wide uppercase ${toneClass[tone]}`}
     >
       {children}
     </span>

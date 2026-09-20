@@ -50,7 +50,7 @@ export default function RegisterPage() {
     <main className="flex min-h-dvh items-center justify-center p-4">
       <div className="w-full max-w-md">
         <Card title="Create your account">
-          <p className="mb-4 text-sm text-slate-500">
+          <p className="mb-4 text-sm text-neutral-70">
             Register with the batch code your coach gave you. An admin will verify your account
             before you can sign in.
           </p>
@@ -97,7 +97,7 @@ export default function RegisterPage() {
             </Button>
           </form>
 
-          <p className="mt-4 text-center text-sm text-slate-500">
+          <p className="mt-4 text-center text-sm text-neutral-70">
             Already registered?{' '}
             <Link href="/login" className="font-medium text-brand-600 hover:text-brand-700">
               Sign in

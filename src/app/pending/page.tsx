@@ -45,13 +45,13 @@ export default function PendingPage() {
     <main className="flex min-h-dvh items-center justify-center p-4">
       <div className="w-full max-w-md">
         <Card title="Awaiting approval">
-          <div className="space-y-3 text-sm text-slate-600">
+          <div className="space-y-3 text-sm text-neutral-80">
             <p>
               Your registration is in
               {effectiveBatchCode ? (
                 <>
                   {' '}
-                  for batch <span className="font-medium text-slate-900">{effectiveBatchCode}</span>
+                  for batch <span className="font-medium text-neutral-100">{effectiveBatchCode}</span>
                 </>
               ) : null}
               . A batch admin will verify your account shortly.

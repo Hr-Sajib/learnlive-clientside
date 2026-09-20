@@ -26,7 +26,7 @@ export default function StudentClassesPage() {
     <RequireAuth role="student">
       <StudentShell>
         <div className="space-y-4">
-          <h1 className="text-lg font-semibold text-slate-900">Classes</h1>
+          <h1 className="text-lg font-semibold text-neutral-100">Classes</h1>
 
           {isLoading ? (
             <SkeletonRows count={5} />
@@ -43,8 +43,8 @@ export default function StudentClassesPage() {
                 <Card key={cls._id}>
                   <div className="flex flex-wrap items-center justify-between gap-4">
                     <div>
-                      <div className="font-medium text-slate-900">{cls.title}</div>
-                      <div className="text-sm text-slate-500">
+                      <div className="font-medium text-neutral-100">{cls.title}</div>
+                      <div className="text-sm text-neutral-70">
                         {formatClassTime(cls.scheduledStartAt)} ·{' '}
                         {formatDuration(cls.scheduledDurationMin * 60_000)}
                       </div>
@@ -78,7 +78,7 @@ export default function StudentClassesPage() {
               >
                 Previous
               </Button>
-              <span className="text-sm text-slate-500">
+              <span className="text-sm text-neutral-70">
                 Page {meta.page} of {meta.totalPages}
               </span>
               <Button
@@ -101,7 +101,7 @@ function SkeletonRows({ count }: { count: number }) {
   return (
     <div className="space-y-3">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="h-20 animate-pulse rounded-lg border border-slate-200 bg-slate-100" />
+        <div key={i} className="h-20 animate-pulse rounded-lg border border-neutral-30 bg-neutral-20" />
       ))}
     </div>
   );
@@ -109,7 +109,7 @@ function SkeletonRows({ count }: { count: number }) {
 
 function ListError({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+    <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
       <p>{message}</p>
       <button onClick={onRetry} className="mt-2 font-medium underline">
         Try again

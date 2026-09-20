@@ -31,7 +31,7 @@ export default function MyAttendancePage() {
     {
       key: 'title',
       header: 'Class',
-      render: (row) => <span className="font-medium text-slate-900">{row.classSession.title}</span>,
+      render: (row) => <span className="font-medium text-neutral-100">{row.classSession.title}</span>,
     },
     {
       key: 'date',
@@ -49,12 +49,12 @@ export default function MyAttendancePage() {
       render: (row) => (
         <div className="flex items-center gap-2">
           <Badge tone={badgeTone[row.status]}>{attendanceTone[row.status].label}</Badge>
-          <span className="tabular-nums text-slate-700">
+          <span className="tabular-nums text-neutral-90">
             {formatPercent(row.presencePct)}
             {row.status !== 'present' && (
               // "54% (60% needed)" reads as a fact the student can check;
               // a bare "Absent" reads as an accusation with nothing to verify it against.
-              <span className="text-slate-400"> ({row.classSession.attendanceThresholdPct}% needed)</span>
+              <span className="text-neutral-50"> ({row.classSession.attendanceThresholdPct}% needed)</span>
             )}
           </span>
         </div>
@@ -66,13 +66,13 @@ export default function MyAttendancePage() {
     <RequireAuth role="student">
       <StudentShell>
         <div className="space-y-4">
-          <h1 className="text-lg font-semibold text-slate-900">My attendance</h1>
+          <h1 className="text-lg font-semibold text-neutral-100">My attendance</h1>
 
           {overall && (
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-neutral-80">
               You attended{' '}
-              <span className="font-semibold text-slate-900">{overall.attended}</span> of{' '}
-              <span className="font-semibold text-slate-900">{overall.totalClasses}</span> classes
+              <span className="font-semibold text-neutral-100">{overall.attended}</span> of{' '}
+              <span className="font-semibold text-neutral-100">{overall.totalClasses}</span> classes
               ({formatPercent(overall.attendanceRate)})
             </p>
           )}
@@ -102,7 +102,7 @@ export default function MyAttendancePage() {
               >
                 Previous
               </Button>
-              <span className="text-sm text-slate-500">
+              <span className="text-sm text-neutral-70">
                 Page {meta.page} of {meta.totalPages}
               </span>
               <Button
@@ -125,7 +125,7 @@ function SkeletonTable() {
   return (
     <div className="space-y-2">
       {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="h-12 animate-pulse rounded-lg border border-slate-200 bg-slate-100" />
+        <div key={i} className="h-12 animate-pulse rounded-lg border border-neutral-30 bg-neutral-20" />
       ))}
     </div>
   );
@@ -133,7 +133,7 @@ function SkeletonTable() {
 
 function ListError({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+    <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
       <p>{message}</p>
       <button onClick={onRetry} className="mt-2 font-medium underline">
         Try again

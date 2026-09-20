@@ -24,7 +24,7 @@ export default function AdminDashboardPage() {
   if (error || !data) {
     return (
       <AdminShell>
-        <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+        <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
           <p>{errorMessage(error)}</p>
           <button onClick={refetch} className="mt-2 font-medium underline">Try again</button>
         </div>
@@ -33,7 +33,7 @@ export default function AdminDashboardPage() {
   }
 
   const columns: TableColumn<RecentClass>[] = [
-    { key: 'title', header: 'Class', render: (row) => <span className="font-medium text-slate-900">{row.title}</span> },
+    { key: 'title', header: 'Class', render: (row) => <span className="font-medium text-neutral-100">{row.title}</span> },
     { key: 'batch', header: 'Batch', render: (row) => row.batch?.code },
     { key: 'started', header: 'Started', render: (row) => (row.actualStartAt ? formatClassTime(row.actualStartAt) : '—') },
     {
@@ -48,7 +48,7 @@ export default function AdminDashboardPage() {
     <RequireAuth role="admin">
       <AdminShell>
         <div className="space-y-8">
-          <h1 className="text-lg font-semibold text-slate-900">Overview</h1>
+          <h1 className="text-lg font-semibold text-neutral-100">Overview</h1>
 
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
             <StatTile
@@ -64,7 +64,7 @@ export default function AdminDashboardPage() {
           </div>
 
           <section>
-            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-70">
               Live now
             </h2>
             {liveClasses.length === 0 ? (
@@ -75,8 +75,8 @@ export default function AdminDashboardPage() {
                   <Card key={cls._id}>
                     <div className="flex items-center justify-between gap-3">
                       <div>
-                        <div className="font-medium text-slate-900">{cls.title}</div>
-                        <div className="text-sm text-slate-500">{formatClassTime(cls.scheduledStartAt)}</div>
+                        <div className="font-medium text-neutral-100">{cls.title}</div>
+                        <div className="text-sm text-neutral-70">{formatClassTime(cls.scheduledStartAt)}</div>
                       </div>
                       <Link
                         href={`/admin/classes/${cls._id}`}
@@ -92,7 +92,7 @@ export default function AdminDashboardPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-70">
               Recent classes
             </h2>
             <Card>
@@ -117,13 +117,13 @@ export default function AdminDashboardPage() {
 function SkeletonOverview() {
   return (
     <div className="space-y-8">
-      <div className="h-7 w-40 animate-pulse rounded bg-slate-200" />
+      <div className="h-7 w-40 animate-pulse rounded bg-neutral-30" />
       <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="h-20 animate-pulse rounded-lg bg-slate-200" />
+          <div key={i} className="h-20 animate-pulse rounded-lg bg-neutral-30" />
         ))}
       </div>
-      <div className="h-40 animate-pulse rounded-lg bg-slate-200" />
+      <div className="h-40 animate-pulse rounded-lg bg-neutral-30" />
     </div>
   );
 }

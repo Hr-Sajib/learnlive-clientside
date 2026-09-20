@@ -45,7 +45,7 @@ export default function StudentDashboardPage() {
           )}
 
           <section>
-            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-70">
               Next up
             </h3>
             {upcoming.isLoading ? (
@@ -63,8 +63,8 @@ export default function StudentDashboardPage() {
                   {upcomingRows.map((cls) => (
                     <li key={cls._id} className="flex items-center justify-between gap-4 py-3">
                       <div>
-                        <div className="font-medium text-slate-900">{cls.title}</div>
-                        <div className="text-sm text-slate-500">
+                        <div className="font-medium text-neutral-100">{cls.title}</div>
+                        <div className="text-sm text-neutral-70">
                           {formatClassTime(cls.scheduledStartAt)} ·{' '}
                           {formatDuration(cls.scheduledDurationMin * 60_000)}
                         </div>
@@ -78,7 +78,7 @@ export default function StudentDashboardPage() {
           </section>
 
           <section>
-            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-70">
               Your attendance
             </h3>
             {attendance.isLoading ? (
@@ -87,10 +87,10 @@ export default function StudentDashboardPage() {
               <ListError message={errorMessage(attendance.error)} onRetry={attendance.refetch} />
             ) : overall && overall.totalClasses > 0 ? (
               <Card>
-                <p className="text-sm text-slate-600">
+                <p className="text-sm text-neutral-80">
                   You attended{' '}
-                  <span className="font-semibold text-slate-900">{overall.attended}</span> of{' '}
-                  <span className="font-semibold text-slate-900">{overall.totalClasses}</span>{' '}
+                  <span className="font-semibold text-neutral-100">{overall.attended}</span> of{' '}
+                  <span className="font-semibold text-neutral-100">{overall.totalClasses}</span>{' '}
                   classes ({formatPercent(overall.attendanceRate)})
                 </p>
                 <div className="mt-3">
@@ -114,7 +114,7 @@ function SkeletonRows({ count }: { count: number }) {
   return (
     <div className="space-y-3">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="h-16 animate-pulse rounded-lg border border-slate-200 bg-slate-100" />
+        <div key={i} className="h-16 animate-pulse rounded-lg border border-neutral-30 bg-neutral-20" />
       ))}
     </div>
   );
@@ -122,7 +122,7 @@ function SkeletonRows({ count }: { count: number }) {
 
 function ListError({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+    <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
       <p>{message}</p>
       <button onClick={onRetry} className="mt-2 font-medium underline">
         Try again

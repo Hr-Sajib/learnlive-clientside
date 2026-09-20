@@ -60,7 +60,7 @@ export default function AdminUsersPage() {
   };
 
   const columns: TableColumn<PendingUser>[] = [
-    { key: 'name', header: 'Name', render: (row) => <span className="font-medium text-slate-900">{row.name}</span> },
+    { key: 'name', header: 'Name', render: (row) => <span className="font-medium text-neutral-100">{row.name}</span> },
     { key: 'email', header: 'Email' },
     { key: 'phone', header: 'Phone' },
     { key: 'batch', header: 'Batch', render: (row) => row.requestedBatchCode ?? '—' },
@@ -95,7 +95,7 @@ export default function AdminUsersPage() {
       <AdminShell>
         <div className="space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h1 className="text-lg font-semibold text-slate-900">Users</h1>
+            <h1 className="text-lg font-semibold text-neutral-100">Users</h1>
             <form onSubmit={onSearch} className="flex gap-2">
               <Input
                 placeholder="Search name, email or phone"
@@ -108,7 +108,7 @@ export default function AdminUsersPage() {
             </form>
           </div>
 
-          <div className="flex gap-1 rounded-lg border border-slate-200 bg-white p-1">
+          <div className="flex gap-1 rounded-lg border border-neutral-30 bg-white p-1">
             {STATUSES.map((s) => (
               <button
                 key={s}
@@ -117,7 +117,7 @@ export default function AdminUsersPage() {
                   setPage(1);
                 }}
                 className={`flex-1 rounded-md px-3 py-1.5 text-sm capitalize ${
-                  status === s ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100'
+                  status === s ? 'bg-neutral-100 text-white' : 'text-neutral-80 hover:bg-neutral-20'
                 }`}
               >
                 {s}
@@ -128,11 +128,11 @@ export default function AdminUsersPage() {
           {isLoading ? (
             <div className="space-y-2">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-14 animate-pulse rounded-lg bg-slate-200" />
+                <div key={i} className="h-14 animate-pulse rounded-lg bg-neutral-30" />
               ))}
             </div>
           ) : error ? (
-            <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+            <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
               <p>{errorMessage(error)}</p>
               <button onClick={refetch} className="mt-2 font-medium underline">Try again</button>
             </div>
@@ -161,7 +161,7 @@ export default function AdminUsersPage() {
               >
                 Previous
               </Button>
-              <span className="text-sm text-slate-500">Page {meta.page} of {meta.totalPages}</span>
+              <span className="text-sm text-neutral-70">Page {meta.page} of {meta.totalPages}</span>
               <Button
                 variant="secondary"
                 size="sm"
@@ -247,8 +247,8 @@ function VerifyDialog({
     <Modal open={!!user} onClose={onClose} title="Verify student">
       {user && (
         <div className="space-y-4">
-          <p className="text-sm text-slate-600">
-            Approve <span className="font-medium text-slate-900">{user.name}</span> and place them in a
+          <p className="text-sm text-neutral-80">
+            Approve <span className="font-medium text-neutral-100">{user.name}</span> and place them in a
             batch. Leave the batch unchanged unless they mistyped the code.
           </p>
           <Select
@@ -302,8 +302,8 @@ function RejectDialog({
           onSubmit={handleSubmit((values) => onConfirm(user._id, values.reason))}
           className="space-y-4"
         >
-          <p className="text-sm text-slate-600">
-            <span className="font-medium text-slate-900">{user.name}</span> will see this reason when
+          <p className="text-sm text-neutral-80">
+            <span className="font-medium text-neutral-100">{user.name}</span> will see this reason when
             they next try to sign in.
           </p>
           <Input
@@ -340,8 +340,8 @@ function SuspendDialog({
     <Modal open={!!user} onClose={onClose} title="Suspend student">
       {user && (
         <div className="space-y-4">
-          <p className="text-sm text-slate-600">
-            Suspending <span className="font-medium text-slate-900">{user.name}</span> immediately
+          <p className="text-sm text-neutral-80">
+            Suspending <span className="font-medium text-neutral-100">{user.name}</span> immediately
             revokes their access.
           </p>
           <Input

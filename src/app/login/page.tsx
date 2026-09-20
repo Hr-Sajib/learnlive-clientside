@@ -57,7 +57,7 @@ export default function LoginPage() {
         <Card title="Sign in">
           <form onSubmit={onSubmit} className="space-y-4" noValidate>
             {rejection && (
-              <div className="rounded-md border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+              <div className="rounded-md border border-danger-500/30 bg-danger-50 p-3 text-sm text-danger-700">
                 {rejection}
               </div>
             )}
@@ -81,7 +81,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <p className="mt-4 text-center text-sm text-slate-500">
+          <p className="mt-4 text-center text-sm text-neutral-70">
             New here?{' '}
             <Link href="/register" className="font-medium text-brand-600 hover:text-brand-700">
               Register with a batch code

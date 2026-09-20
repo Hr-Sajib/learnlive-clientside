@@ -51,7 +51,7 @@ export default function AdminBatchesPage() {
         </Link>
       ),
     },
-    { key: 'title', header: 'Title', render: (row) => <span className="font-medium text-slate-900">{row.title}</span> },
+    { key: 'title', header: 'Title', render: (row) => <span className="font-medium text-neutral-100">{row.title}</span> },
     { key: 'students', header: 'Students', render: (row) => row.studentCount ?? 0 },
     {
       key: 'status',
@@ -85,7 +85,7 @@ export default function AdminBatchesPage() {
       <AdminShell>
         <div className="space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h1 className="text-lg font-semibold text-slate-900">Batches</h1>
+            <h1 className="text-lg font-semibold text-neutral-100">Batches</h1>
             <Button onClick={() => setShowNew(true)}>New batch</Button>
           </div>
 
@@ -122,11 +122,11 @@ export default function AdminBatchesPage() {
           {isLoading ? (
             <div className="space-y-2">
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-14 animate-pulse rounded-lg bg-slate-200" />
+                <div key={i} className="h-14 animate-pulse rounded-lg bg-neutral-30" />
               ))}
             </div>
           ) : error ? (
-            <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+            <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
               <p>{errorMessage(error)}</p>
               <button onClick={refetch} className="mt-2 font-medium underline">Try again</button>
             </div>
@@ -147,7 +147,7 @@ export default function AdminBatchesPage() {
               <Button variant="secondary" size="sm" disabled={page <= 1 || isFetching} onClick={() => setPage((p) => p - 1)}>
                 Previous
               </Button>
-              <span className="text-sm text-slate-500">Page {meta.page} of {meta.totalPages}</span>
+              <span className="text-sm text-neutral-70">Page {meta.page} of {meta.totalPages}</span>
               <Button variant="secondary" size="sm" disabled={page >= meta.totalPages || isFetching} onClick={() => setPage((p) => p + 1)}>
                 Next
               </Button>

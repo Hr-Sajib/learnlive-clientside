@@ -53,7 +53,7 @@ export function RequireAuth({
     return (
       <div className="flex min-h-dvh items-center justify-center">
         <div
-          className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-slate-900"
+          className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-30 border-t-neutral-100"
           role="status"
           aria-label="Loading"
         />

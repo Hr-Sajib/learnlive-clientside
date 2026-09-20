@@ -21,7 +21,7 @@ export function Table<T>({
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+          <tr className="border-b border-neutral-30 text-xs font-semibold tracking-wide text-neutral-70 uppercase">
             {columns.map((column) => (
               <th key={column.key} className="px-3 py-2 font-medium first:pl-4 last:pr-4">
                 {column.header}
@@ -33,9 +33,10 @@ export function Table<T>({
           {rows.map((row, index) => (
             <tr
               key={index}
-              className={`border-b border-slate-100 last:border-0 hover:bg-slate-50/50 ${
+              className={`transition-ads border-b border-neutral-20 last:border-0 hover:bg-neutral-10 ${
                 rowClassName?.(row, index) ?? ''
               }`}
+              style={{ transitionProperty: 'background-color' }}
             >
               {columns.map((column) => {
                 if (column.render) {
@@ -61,7 +62,7 @@ export function Table<T>({
       </table>
       {rows.length === 0 && (
         <div className="p-4">
-          {empty ?? <p className="text-center text-sm text-slate-500">Nothing to show.</p>}
+          {empty ?? <p className="text-center text-sm text-neutral-70">Nothing to show.</p>}
         </div>
       )}
     </div>

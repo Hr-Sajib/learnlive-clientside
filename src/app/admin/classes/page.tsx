@@ -70,7 +70,7 @@ export default function AdminClassesPage() {
     {
       key: 'title',
       header: 'Class',
-      render: (row) => <span className="font-medium text-slate-900">{row.title}</span>,
+      render: (row) => <span className="font-medium text-neutral-100">{row.title}</span>,
     },
     { key: 'batch', header: 'Batch', render: (row) => batchCodeOf(row) },
     { key: 'when', header: 'When', render: (row) => formatClassTime(row.scheduledStartAt) },
@@ -113,7 +113,7 @@ export default function AdminClassesPage() {
           {row.status === 'ended' && (
             <Link
               href={`/admin/classes/${row._id}`}
-              className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-md border border-neutral-40 bg-white px-3 py-1.5 text-sm font-medium text-neutral-90 hover:bg-neutral-10"
             >
               View attendance
             </Link>
@@ -127,7 +127,7 @@ export default function AdminClassesPage() {
     <RequireAuth role="admin">
       <AdminShell>
         <div className="space-y-4">
-          <h1 className="text-lg font-semibold text-slate-900">Classes</h1>
+          <h1 className="text-lg font-semibold text-neutral-100">Classes</h1>
 
           <div className="flex flex-wrap gap-2">
             <Select
@@ -160,11 +160,11 @@ export default function AdminClassesPage() {
           {isLoading ? (
             <div className="space-y-2">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-14 animate-pulse rounded-lg bg-slate-200" />
+                <div key={i} className="h-14 animate-pulse rounded-lg bg-neutral-30" />
               ))}
             </div>
           ) : error ? (
-            <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+            <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
               <p>{errorMessage(error)}</p>
               <button onClick={refetch} className="mt-2 font-medium underline">Try again</button>
             </div>
@@ -181,7 +181,7 @@ export default function AdminClassesPage() {
               <Button variant="secondary" size="sm" disabled={page <= 1 || isFetching} onClick={() => setPage((p) => p - 1)}>
                 Previous
               </Button>
-              <span className="text-sm text-slate-500">Page {meta.page} of {meta.totalPages}</span>
+              <span className="text-sm text-neutral-70">Page {meta.page} of {meta.totalPages}</span>
               <Button variant="secondary" size="sm" disabled={page >= meta.totalPages || isFetching} onClick={() => setPage((p) => p + 1)}>
                 Next
               </Button>
