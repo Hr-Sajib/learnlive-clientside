@@ -9,7 +9,6 @@ import { registerSchema, type RegisterValues } from '@/lib/validation';
 import { useRegisterMutation } from '@/store/api/authApi';
 import { errorCode, errorMessage } from '@/store/api/baseApi';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 
 export default function RegisterPage() {
@@ -47,14 +46,20 @@ export default function RegisterPage() {
   });
 
   return (
-    <main className="flex min-h-dvh items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <Card title="Create your account">
-          <p className="mb-4 text-sm text-neutral-70">
+    <main className="glow-backdrop flex min-h-dvh items-center justify-center p-4">
+      <div className="animate-rise-in w-full max-w-md">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-brand-600 text-lg font-bold text-white shadow-overlay">
+            L
+          </div>
+          <h1 className="text-2xl font-semibold tracking-tight text-text">Create your account</h1>
+          <p className="mt-1 max-w-xs text-sm text-text-subtle">
             Register with the batch code your coach gave you. An admin will verify your account
             before you can sign in.
           </p>
+        </div>
 
+        <div className="rounded-lg border border-border bg-surface p-7 shadow-overlay">
           <form onSubmit={onSubmit} className="space-y-4" noValidate>
             <Input
               label="Full name"
@@ -92,18 +97,18 @@ export default function RegisterPage() {
               {...register('batchCode')}
             />
 
-            <Button type="submit" isLoading={isLoading} className="w-full">
+            <Button type="submit" isLoading={isLoading} size="lg" className="w-full">
               Register
             </Button>
           </form>
+        </div>
 
-          <p className="mt-4 text-center text-sm text-neutral-70">
-            Already registered?{' '}
-            <Link href="/login" className="font-medium text-brand-600 hover:text-brand-700">
-              Sign in
-            </Link>
-          </p>
-        </Card>
+        <p className="mt-6 text-center text-sm text-text-subtle">
+          Already registered?{' '}
+          <Link href="/login" className="font-medium text-brand-600 hover:text-brand-700">
+            Sign in
+          </Link>
+        </p>
       </div>
     </main>
   );

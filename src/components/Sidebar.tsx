@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LogOut, type LucideIcon } from 'lucide-react';
+import { LogOut, Moon, Sun, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { useTheme } from '@/hooks/useTheme';
 
 export interface SidebarItem {
   href: string;
@@ -26,6 +27,11 @@ interface SidebarProps {
   children: ReactNode;
 }
 
+/** Shared row styling for nav links, the theme toggle and sign-out — one
+ *  interactive-row treatment used everywhere in the rail. */
+const ROW =
+  'transition-ads relative flex h-10 w-full shrink-0 items-center gap-3 rounded-md px-[11px] text-left';
+
 /**
  * The floating, hover-to-expand rail every shell in the app uses.
  *
@@ -39,6 +45,11 @@ interface SidebarProps {
  * sized for the COLLAPSED width only, so hovering the rail never shoves the
  * page around. `z-40` keeps it under Modal's `z-50`, so a dialog always
  * wins.
+ *
+ * Every colour here is a semantic token (`bg-surface`, `text-text`, …), not
+ * a fixed dark palette — that's what lets the rail itself flip between the
+ * light and dark variants shown in the reference, in step with the rest of
+ * the site, instead of staying permanently dark.
  */
 export function Sidebar({
   brand,
@@ -50,12 +61,14 @@ export function Sidebar({
   children,
 }: SidebarProps) {
   const pathname = usePathname();
+  const { theme, toggle } = useTheme();
   const initial = userName.trim().charAt(0).toUpperCase() || '?';
+  const isDark = theme === 'dark';
 
   return (
     <div className="min-h-dvh">
       <aside
-        className="transition-ads group fixed inset-y-3 left-3 z-40 flex w-16 flex-col overflow-hidden rounded-xl bg-ink-800 shadow-rail hover:w-64 focus-within:w-64"
+        className="transition-ads group fixed inset-y-3 left-3 z-40 flex w-16 flex-col overflow-hidden rounded-xl bg-surface shadow-rail hover:w-64 focus-within:w-64"
         style={{ transitionProperty: 'width' }}
       >
         {/* Brand */}
@@ -64,9 +77,9 @@ export function Sidebar({
             L
           </div>
           <div className="min-w-0 overflow-hidden opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
-            <div className="truncate text-sm font-semibold whitespace-nowrap text-white">{brand}</div>
+            <div className="truncate text-sm font-semibold whitespace-nowrap text-text">{brand}</div>
             {brandMeta && (
-              <div className="truncate text-xs whitespace-nowrap text-ink-text-subtle">{brandMeta}</div>
+              <div className="truncate text-xs whitespace-nowrap text-text-subtle">{brandMeta}</div>
             )}
           </div>
         </div>
@@ -84,19 +97,15 @@ export function Sidebar({
                 key={item.href}
                 href={item.href}
                 title={item.label}
-                className={`transition-ads relative flex h-10 shrink-0 items-center gap-3 rounded-md px-[11px] ${
+                className={`${ROW} ${
                   active
-                    ? 'bg-white/10 text-white'
-                    : 'text-ink-text hover:bg-white/5 hover:text-white'
+                    ? 'bg-accent/10 text-text'
+                    : 'text-text-subtle hover:bg-surface-hover hover:text-text'
                 }`}
                 style={{ transitionProperty: 'background-color, color' }}
               >
                 <span className="relative shrink-0">
-                  <Icon
-                    size={18}
-                    strokeWidth={2}
-                    className={active ? 'text-brand-300' : ''}
-                  />
+                  <Icon size={18} strokeWidth={2} className={active ? 'text-accent' : ''} />
                   {item.badge != null && item.badge > 0 && (
                     <span className="absolute -top-1.5 -right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-danger-600 text-[9px] font-semibold text-white group-hover:hidden">
                       {item.badge > 9 ? '9+' : item.badge}
@@ -116,16 +125,42 @@ export function Sidebar({
           })}
         </nav>
 
-        {/* User + sign out */}
-        <div className="shrink-0 border-t border-white/10 px-2.5 py-2.5">
+        {/* Theme toggle + user + sign out */}
+        <div className="shrink-0 border-t border-border px-2.5 py-2.5">
+          <button
+            onClick={toggle}
+            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-pressed={isDark}
+            className={`${ROW} mb-0.5 text-text-subtle hover:bg-surface-hover hover:text-text`}
+            style={{ transitionProperty: 'background-color, color' }}
+          >
+            <span className="relative flex shrink-0 items-center justify-center">
+              <Sun
+                size={18}
+                strokeWidth={2}
+                className={`transition-ads absolute ${isDark ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
+                style={{ transitionProperty: 'opacity, transform' }}
+              />
+              <Moon
+                size={18}
+                strokeWidth={2}
+                className={`transition-ads ${isDark ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+                style={{ transitionProperty: 'opacity, transform' }}
+              />
+            </span>
+            <span className="min-w-0 flex-1 overflow-hidden opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
+              <span className="whitespace-nowrap">{isDark ? 'Dark mode' : 'Light mode'}</span>
+            </span>
+          </button>
+
           <div className="flex h-10 items-center gap-3 rounded-md px-[11px]">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ink-500 text-[11px] font-semibold text-white">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-surface-sunken text-[11px] font-semibold text-text">
               {initial}
             </span>
             <span className="min-w-0 flex-1 overflow-hidden opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
-              <span className="block truncate text-sm whitespace-nowrap text-white">{userName}</span>
+              <span className="block truncate text-sm whitespace-nowrap text-text">{userName}</span>
               {userMeta && (
-                <span className="block truncate text-xs whitespace-nowrap text-ink-text-subtle">
+                <span className="block truncate text-xs whitespace-nowrap text-text-subtle">
                   {userMeta}
                 </span>
               )}
@@ -133,7 +168,7 @@ export function Sidebar({
             <button
               onClick={onSignOut}
               title="Sign out"
-              className="transition-ads shrink-0 rounded-md p-1.5 text-ink-text-subtle hover:bg-white/10 hover:text-white"
+              className="transition-ads shrink-0 rounded-md p-1.5 text-text-subtle hover:bg-surface-hover hover:text-text"
               style={{ transitionProperty: 'background-color, color' }}
             >
               <LogOut size={16} />

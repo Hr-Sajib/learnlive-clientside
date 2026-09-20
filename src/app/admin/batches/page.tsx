@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { RequireAuth } from '@/components/RequireAuth';
-import { AdminShell } from '@/components/AdminShell';
+import { Layers } from 'lucide-react';
 import { useCreateBatchMutation, useListBatchesQuery, useUpdateBatchMutation } from '@/store/api/batchApi';
 import { errorMessage } from '@/store/api/baseApi';
 import { createBatchSchema, type CreateBatchValues } from '@/lib/validation';
@@ -19,6 +18,7 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Select } from '@/components/ui/Select';
 import { Table, type TableColumn } from '@/components/ui/Table';
 
@@ -51,7 +51,7 @@ export default function AdminBatchesPage() {
         </Link>
       ),
     },
-    { key: 'title', header: 'Title', render: (row) => <span className="font-medium text-neutral-100">{row.title}</span> },
+    { key: 'title', header: 'Title', render: (row) => <span className="font-medium text-text">{row.title}</span> },
     { key: 'students', header: 'Students', render: (row) => row.studentCount ?? 0 },
     {
       key: 'status',
@@ -81,13 +81,14 @@ export default function AdminBatchesPage() {
   ];
 
   return (
-    <RequireAuth role="admin">
-      <AdminShell>
-        <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h1 className="text-lg font-semibold text-neutral-100">Batches</h1>
-            <Button onClick={() => setShowNew(true)}>New batch</Button>
-          </div>
+    <>
+        <div className="space-y-6">
+          <PageHeader
+            icon={Layers}
+            title="Batches"
+            subtitle="Cohorts of students, each with its own code and classes."
+            action={<Button onClick={() => setShowNew(true)}>New batch</Button>}
+          />
 
           <div className="flex flex-wrap gap-2">
             <form
@@ -122,7 +123,7 @@ export default function AdminBatchesPage() {
           {isLoading ? (
             <div className="space-y-2">
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-14 animate-pulse rounded-lg bg-neutral-30" />
+                <div key={i} className="h-14 animate-pulse rounded-lg bg-surface-sunken" />
               ))}
             </div>
           ) : error ? (
@@ -147,7 +148,7 @@ export default function AdminBatchesPage() {
               <Button variant="secondary" size="sm" disabled={page <= 1 || isFetching} onClick={() => setPage((p) => p - 1)}>
                 Previous
               </Button>
-              <span className="text-sm text-neutral-70">Page {meta.page} of {meta.totalPages}</span>
+              <span className="text-sm text-text-subtle">Page {meta.page} of {meta.totalPages}</span>
               <Button variant="secondary" size="sm" disabled={page >= meta.totalPages || isFetching} onClick={() => setPage((p) => p + 1)}>
                 Next
               </Button>
@@ -198,8 +199,7 @@ export default function AdminBatchesPage() {
             }
           }}
         />
-      </AdminShell>
-    </RequireAuth>
+    </>
   );
 }
 

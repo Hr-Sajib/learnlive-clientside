@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { RequireAuth } from '@/components/RequireAuth';
-import { StudentShell } from '@/components/StudentShell';
+import { ClipboardCheck } from 'lucide-react';
 import { useMyAttendanceQuery } from '@/store/api/attendanceApi';
 import { errorMessage } from '@/store/api/baseApi';
 import type { AttendanceStatus, MyAttendanceRow } from '@/lib/types';
@@ -10,6 +9,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Table, type TableColumn } from '@/components/ui/Table';
 import { formatClassTime, formatDuration, formatPercent, attendanceTone } from '@/lib/format';
 
@@ -31,7 +31,7 @@ export default function MyAttendancePage() {
     {
       key: 'title',
       header: 'Class',
-      render: (row) => <span className="font-medium text-neutral-100">{row.classSession.title}</span>,
+      render: (row) => <span className="font-medium text-text">{row.classSession.title}</span>,
     },
     {
       key: 'date',
@@ -49,12 +49,12 @@ export default function MyAttendancePage() {
       render: (row) => (
         <div className="flex items-center gap-2">
           <Badge tone={badgeTone[row.status]}>{attendanceTone[row.status].label}</Badge>
-          <span className="tabular-nums text-neutral-90">
+          <span className="tabular-nums text-text">
             {formatPercent(row.presencePct)}
             {row.status !== 'present' && (
               // "54% (60% needed)" reads as a fact the student can check;
               // a bare "Absent" reads as an accusation with nothing to verify it against.
-              <span className="text-neutral-50"> ({row.classSession.attendanceThresholdPct}% needed)</span>
+              <span className="text-text-subtlest"> ({row.classSession.attendanceThresholdPct}% needed)</span>
             )}
           </span>
         </div>
@@ -63,16 +63,14 @@ export default function MyAttendancePage() {
   ];
 
   return (
-    <RequireAuth role="student">
-      <StudentShell>
-        <div className="space-y-4">
-          <h1 className="text-lg font-semibold text-neutral-100">My attendance</h1>
+        <div className="space-y-6">
+          <PageHeader icon={ClipboardCheck} title="My attendance" subtitle="Your record across every class you've joined." />
 
           {overall && (
-            <p className="text-sm text-neutral-80">
+            <p className="text-sm text-text-subtle">
               You attended{' '}
-              <span className="font-semibold text-neutral-100">{overall.attended}</span> of{' '}
-              <span className="font-semibold text-neutral-100">{overall.totalClasses}</span> classes
+              <span className="font-semibold text-text">{overall.attended}</span> of{' '}
+              <span className="font-semibold text-text">{overall.totalClasses}</span> classes
               ({formatPercent(overall.attendanceRate)})
             </p>
           )}
@@ -102,7 +100,7 @@ export default function MyAttendancePage() {
               >
                 Previous
               </Button>
-              <span className="text-sm text-neutral-70">
+              <span className="text-sm text-text-subtle">
                 Page {meta.page} of {meta.totalPages}
               </span>
               <Button
@@ -116,8 +114,6 @@ export default function MyAttendancePage() {
             </div>
           )}
         </div>
-      </StudentShell>
-    </RequireAuth>
   );
 }
 
@@ -125,7 +121,7 @@ function SkeletonTable() {
   return (
     <div className="space-y-2">
       {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="h-12 animate-pulse rounded-lg border border-neutral-30 bg-neutral-20" />
+        <div key={i} className="h-12 animate-pulse rounded-lg border border-border bg-surface-sunken" />
       ))}
     </div>
   );

@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { RequireAuth } from '@/components/RequireAuth';
-import { AdminShell } from '@/components/AdminShell';
+import { Users } from 'lucide-react';
 import {
   useListUsersQuery,
   useVerifyUserMutation,
@@ -22,6 +21,7 @@ import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Select } from '@/components/ui/Select';
 import { Table, type TableColumn } from '@/components/ui/Table';
 
@@ -60,7 +60,7 @@ export default function AdminUsersPage() {
   };
 
   const columns: TableColumn<PendingUser>[] = [
-    { key: 'name', header: 'Name', render: (row) => <span className="font-medium text-neutral-100">{row.name}</span> },
+    { key: 'name', header: 'Name', render: (row) => <span className="font-medium text-text">{row.name}</span> },
     { key: 'email', header: 'Email' },
     { key: 'phone', header: 'Phone' },
     { key: 'batch', header: 'Batch', render: (row) => row.requestedBatchCode ?? '—' },
@@ -91,24 +91,27 @@ export default function AdminUsersPage() {
   ];
 
   return (
-    <RequireAuth role="admin">
-      <AdminShell>
-        <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h1 className="text-lg font-semibold text-neutral-100">Users</h1>
-            <form onSubmit={onSearch} className="flex gap-2">
-              <Input
-                placeholder="Search name, email or phone"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-              />
-              <Button type="submit" variant="secondary">
-                Search
-              </Button>
-            </form>
-          </div>
+    <>
+        <div className="space-y-6">
+          <PageHeader
+            icon={Users}
+            title="Users"
+            subtitle="Review registrations and manage who has access."
+            action={
+              <form onSubmit={onSearch} className="flex gap-2">
+                <Input
+                  placeholder="Search name, email or phone"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+                <Button type="submit" variant="secondary">
+                  Search
+                </Button>
+              </form>
+            }
+          />
 
-          <div className="flex gap-1 rounded-lg border border-neutral-30 bg-white p-1">
+          <div className="flex gap-1 rounded-lg border border-border bg-surface p-1">
             {STATUSES.map((s) => (
               <button
                 key={s}
@@ -117,7 +120,7 @@ export default function AdminUsersPage() {
                   setPage(1);
                 }}
                 className={`flex-1 rounded-md px-3 py-1.5 text-sm capitalize ${
-                  status === s ? 'bg-neutral-100 text-white' : 'text-neutral-80 hover:bg-neutral-20'
+                  status === s ? 'bg-accent text-white' : 'text-text-subtle hover:bg-surface-sunken'
                 }`}
               >
                 {s}
@@ -128,7 +131,7 @@ export default function AdminUsersPage() {
           {isLoading ? (
             <div className="space-y-2">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-14 animate-pulse rounded-lg bg-neutral-30" />
+                <div key={i} className="h-14 animate-pulse rounded-lg bg-surface-sunken" />
               ))}
             </div>
           ) : error ? (
@@ -161,7 +164,7 @@ export default function AdminUsersPage() {
               >
                 Previous
               </Button>
-              <span className="text-sm text-neutral-70">Page {meta.page} of {meta.totalPages}</span>
+              <span className="text-sm text-text-subtle">Page {meta.page} of {meta.totalPages}</span>
               <Button
                 variant="secondary"
                 size="sm"
@@ -216,8 +219,7 @@ export default function AdminUsersPage() {
             }
           }}
         />
-      </AdminShell>
-    </RequireAuth>
+    </>
   );
 }
 
@@ -247,8 +249,8 @@ function VerifyDialog({
     <Modal open={!!user} onClose={onClose} title="Verify student">
       {user && (
         <div className="space-y-4">
-          <p className="text-sm text-neutral-80">
-            Approve <span className="font-medium text-neutral-100">{user.name}</span> and place them in a
+          <p className="text-sm text-text-subtle">
+            Approve <span className="font-medium text-text">{user.name}</span> and place them in a
             batch. Leave the batch unchanged unless they mistyped the code.
           </p>
           <Select
@@ -302,8 +304,8 @@ function RejectDialog({
           onSubmit={handleSubmit((values) => onConfirm(user._id, values.reason))}
           className="space-y-4"
         >
-          <p className="text-sm text-neutral-80">
-            <span className="font-medium text-neutral-100">{user.name}</span> will see this reason when
+          <p className="text-sm text-text-subtle">
+            <span className="font-medium text-text">{user.name}</span> will see this reason when
             they next try to sign in.
           </p>
           <Input
@@ -340,8 +342,8 @@ function SuspendDialog({
     <Modal open={!!user} onClose={onClose} title="Suspend student">
       {user && (
         <div className="space-y-4">
-          <p className="text-sm text-neutral-80">
-            Suspending <span className="font-medium text-neutral-100">{user.name}</span> immediately
+          <p className="text-sm text-text-subtle">
+            Suspending <span className="font-medium text-text">{user.name}</span> immediately
             revokes their access.
           </p>
           <Input

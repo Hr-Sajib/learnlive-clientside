@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Clock } from 'lucide-react';
 import { useLogoutMutation, useMeQuery } from '@/store/api/authApi';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
 
 export default function PendingPage() {
   const router = useRouter();
@@ -42,32 +42,38 @@ export default function PendingPage() {
   };
 
   return (
-    <main className="flex min-h-dvh items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <Card title="Awaiting approval">
-          <div className="space-y-3 text-sm text-neutral-80">
-            <p>
-              Your registration is in
-              {effectiveBatchCode ? (
-                <>
-                  {' '}
-                  for batch <span className="font-medium text-neutral-100">{effectiveBatchCode}</span>
-                </>
-              ) : null}
-              . A batch admin will verify your account shortly.
-            </p>
-            <p>Once approved, you will be able to sign in and join your classes.</p>
+    <main className="glow-backdrop flex min-h-dvh items-center justify-center p-4">
+      <div className="animate-rise-in w-full max-w-md text-center">
+        <div className="mb-5 flex justify-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-warning-50 text-warning-600 shadow-overlay">
+            <Clock size={28} strokeWidth={2} />
           </div>
+        </div>
 
-          <div className="mt-6 flex items-center gap-3">
-            <Button onClick={onCheckAgain} isLoading={checking || isFetching} variant="secondary">
-              Check again
-            </Button>
-            <Button onClick={onSignOut} variant="ghost">
-              Sign out
-            </Button>
-          </div>
-        </Card>
+        <h1 className="text-2xl font-semibold tracking-tight text-text">Awaiting approval</h1>
+
+        <div className="mx-auto mt-3 max-w-sm space-y-2 text-sm text-text-subtle">
+          <p>
+            Your registration is in
+            {effectiveBatchCode ? (
+              <>
+                {' '}
+                for batch <span className="font-medium text-text">{effectiveBatchCode}</span>
+              </>
+            ) : null}
+            . A batch admin will verify your account shortly.
+          </p>
+          <p>Once approved, you will be able to sign in and join your classes.</p>
+        </div>
+
+        <div className="mt-7 flex items-center justify-center gap-3">
+          <Button onClick={onCheckAgain} isLoading={checking || isFetching} variant="secondary">
+            Check again
+          </Button>
+          <Button onClick={onSignOut} variant="ghost">
+            Sign out
+          </Button>
+        </div>
       </div>
     </main>
   );

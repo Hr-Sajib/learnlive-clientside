@@ -74,7 +74,7 @@ export function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-neutral-100/50 transition-opacity duration-150 ease-out"
+        className="absolute inset-0 bg-scrim transition-opacity duration-150 ease-out"
         style={{ opacity: entered ? 1 : 0 }}
         onClick={onClose}
         aria-hidden="true"
@@ -84,14 +84,14 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-label={typeof title === 'string' ? title : undefined}
-        className="transition-ads relative w-full max-w-md rounded-lg bg-white p-6 shadow-overlay"
+        className="transition-ads relative w-full max-w-md rounded-lg bg-surface p-6 shadow-overlay"
         style={{
           transitionProperty: 'opacity, transform',
           opacity: entered ? 1 : 0,
           transform: entered ? 'scale(1) translateY(0)' : 'scale(0.97) translateY(4px)',
         }}
       >
-        <h2 className="mb-4 text-[17px] font-semibold text-neutral-100">{title}</h2>
+        <h2 className="mb-4 text-[17px] font-semibold text-text">{title}</h2>
         {children}
       </div>
     </div>

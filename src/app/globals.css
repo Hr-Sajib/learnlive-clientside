@@ -1,19 +1,22 @@
 @import 'tailwindcss';
 
 /**
- * Atlassian Design System tokens, translated into Tailwind v4 theme vars.
+ * Design tokens, translated into Tailwind v4 theme vars.
  *
- * Two things make this read as ADS rather than "generic SaaS blue":
- *  1. The neutral scale is blue-tinted, not true gray (Atlassian's "N" ramp).
- *     Text and borders lean cool/navy instead of flat black/gray.
- *  2. Radii are tight (4px controls, not 8-12px pills) — Atlaskit components
- *     read as precise and dense, never bubbly.
+ * The colour system stays Atlaskit-derived — a blue-tinted neutral ramp
+ * (text and borders lean cool/navy, never flat black/gray) plus the ADS
+ * brand blue — because that palette is genuinely good: precise, legible,
+ * unmistakably "product," not decorative. Shape and elevation borrow from
+ * Material instead: rounder radii and layered shadows that do real work
+ * signalling depth, which is what actually reads as polished rather than
+ * a flat colour swap on top of a dense enterprise-tool layout.
  *
  * Every page pulls colour from these rather than hard-coding a palette, so
  * the whole app restyles from one place.
  */
 @theme {
-  /* Brand blue — Atlaskit's B-ramp. */
+  /* Brand blue — Atlaskit's B-ramp. Constant across themes: the accent stays
+     recognisable whether the surface around it is light or dark. */
   --color-brand-50: #e9f2ff;
   --color-brand-100: #cce0ff;
   --color-brand-200: #85b8ff;
@@ -25,7 +28,10 @@
   --color-brand-800: #09326c;
   --color-brand-900: #051e40;
 
-  /* Neutral — Atlaskit's N-ramp. Blue-tinted, not pure gray. */
+  /* Neutral — Atlaskit's N-ramp. Blue-tinted, not pure gray. This raw ramp
+     stays fixed; theming happens one layer up, in the semantic tokens below,
+     so a literal "neutral-70" always means the same physical colour and
+     nothing here silently flips underneath a component that reads it. */
   --color-neutral-0: #ffffff;
   --color-neutral-10: #f7f8f9;
   --color-neutral-20: #f1f2f4;
@@ -38,16 +44,7 @@
   --color-neutral-90: #2c3e5d;
   --color-neutral-100: #172b4d;
 
-  /* Dark surface — the sidebar's own ramp, independent of the light UI. */
-  --color-ink-900: #0f1214;
-  --color-ink-800: #161a1d;
-  --color-ink-700: #1d2125;
-  --color-ink-600: #262b30;
-  --color-ink-500: #38414a;
-  --color-ink-text: #b6c2cf;
-  --color-ink-text-subtle: #8c9bab;
-
-  /* Semantic. */
+  /* Semantic accents — also constant across themes. */
   --color-danger-50: #ffecea;
   --color-danger-500: #e2483d;
   --color-danger-600: #c9372c;
@@ -59,19 +56,76 @@
   --color-success-500: #4bce97;
   --color-success-600: #216e4e;
 
-  --radius-xs: 3px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
-  --radius-xl: 16px;
+  /* Extra accents — colour-coding distinct categories (a stat tile per kind
+     of thing, an avatar per person) is what makes a dashboard feel alive
+     rather than a wall of identical blue. Not part of core Atlaskit, but
+     drawn from the same family of tight, slightly muted saturated hues so
+     they sit comfortably next to brand blue instead of fighting it. */
+  --color-violet-50: #f3f0ff;
+  --color-violet-500: #8f7ee7;
+  --color-violet-600: #6e5dc6;
+  --color-teal-50: #e7fbff;
+  --color-teal-500: #4fc9dc;
+  --color-teal-600: #2898ab;
 
-  --shadow-raised: 0 1px 1px rgba(9, 30, 66, 0.25), 0 0 1px rgba(9, 30, 66, 0.31);
-  --shadow-overlay: 0 8px 12px rgba(9, 30, 66, 0.15), 0 0 1px rgba(9, 30, 66, 0.31);
-  --shadow-rail: 0 4px 16px rgba(9, 30, 66, 0.2), 0 0 1px rgba(9, 30, 66, 0.4);
+  /*
+   * Role tokens — what components actually use. Every one of these is
+   * redefined under `[data-theme="dark"]` further down, which is the whole
+   * mechanism dark mode runs on: a component styled with `bg-surface` or
+   * `text-text` never itself knows which theme is active, because the
+   * variable it reads resolves differently depending on which block is in
+   * the cascade above it.
+   */
+  --color-canvas: var(--color-neutral-10);
+  --color-surface: #ffffff;
+  --color-surface-hover: var(--color-neutral-10);
+  --color-surface-sunken: var(--color-neutral-20);
+  --color-border: var(--color-neutral-30);
+  --color-border-strong: var(--color-neutral-40);
+  --color-text: var(--color-neutral-100);
+  --color-text-subtle: var(--color-neutral-70);
+  --color-text-subtlest: var(--color-neutral-50);
+  --color-accent: var(--color-brand-600);
+  --color-scrim: rgb(9 30 66 / 0.5);
+
+  /* Material's rounder, friendlier shape language — 8/12/16/24px rather than
+     Atlaskit's tight 3/4/6/10px. This is the single biggest lever on whether
+     the app reads as "enterprise tool" or "product people enjoy opening". */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Layered, more pronounced elevation — Material's shadows do real work
+     communicating stacking order, not just a faint 1px hairline. */
+  --shadow-raised: 0 1px 2px rgba(9, 30, 66, 0.08), 0 2px 8px rgba(9, 30, 66, 0.08);
+  --shadow-overlay: 0 4px 12px rgba(9, 30, 66, 0.1), 0 12px 32px rgba(9, 30, 66, 0.16);
+  --shadow-rail: 0 4px 16px rgba(9, 30, 66, 0.14), 0 12px 28px rgba(9, 30, 66, 0.16);
 
   --ease-out: cubic-bezier(0.2, 0, 0, 1);
   --duration-fast: 120ms;
   --duration-base: 200ms;
+}
+
+/**
+ * Dark mode. `data-theme` is set on `<html>` by an inline script that runs
+ * before paint (see `layout.tsx`) — never by a CSS media query alone — so a
+ * saved preference always wins over the OS setting and there is no flash of
+ * the wrong theme on load.
+ */
+[data-theme='dark'] {
+  --color-canvas: #0f1214;
+  --color-surface: #1d2125;
+  --color-surface-hover: #262b30;
+  --color-surface-sunken: #22272b;
+  --color-border: #38414a;
+  --color-border-strong: #4c5a6b;
+  --color-text: #e6edfa;
+  --color-text-subtle: #9fadbc;
+  --color-text-subtlest: #7a869a;
+  --color-accent: var(--color-brand-300);
+  --color-scrim: rgb(0 0 0 / 0.6);
 }
 
 html,
@@ -80,8 +134,8 @@ body {
 }
 
 body {
-  background: var(--color-neutral-10);
-  color: var(--color-neutral-100);
+  background: var(--color-canvas);
+  color: var(--color-text);
   font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
@@ -89,7 +143,7 @@ body {
 }
 
 * {
-  border-color: var(--color-neutral-30);
+  border-color: var(--color-border);
 }
 
 /* A single easing curve used everywhere, so every hover/expand/fade in the
@@ -98,6 +152,17 @@ body {
 .transition-ads {
   transition-timing-function: var(--ease-out);
   transition-duration: var(--duration-base);
+}
+
+/* Colour itself also transitions on a theme switch, so toggling reads as a
+   cross-fade rather than a hard cut. Inline `style` transitions elsewhere
+   (the sidebar's width, Modal's opacity/transform) take precedence over this
+   by ordinary CSS specificity, so the two never fight. */
+* {
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
 }
 
 ::selection {
@@ -110,7 +175,47 @@ body {
   border-radius: var(--radius-xs);
 }
 
-/* LiveKit's prebuilt UI expects to own its full container. */
+/* LiveKit's prebuilt UI expects to own its full container, and is
+   deliberately excluded from the site theme — a video call stays dark
+   regardless of the app's light/dark setting, the same way it would in any
+   dedicated conferencing app. */
 [data-lk-theme] {
   height: 100%;
+  transition: none;
+}
+
+/* A soft, decorative glow — used behind the auth cards and page headers.
+   Two radial washes in brand blue and violet, low-opacity enough to read as
+   atmosphere rather than a competing shape. */
+.glow-backdrop {
+  position: relative;
+  isolation: isolate;
+}
+.glow-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  background:
+    radial-gradient(38% 45% at 15% 8%, color-mix(in oklab, var(--color-brand-500) 20%, transparent), transparent),
+    radial-gradient(32% 40% at 88% 92%, color-mix(in oklab, var(--color-violet-500) 16%, transparent), transparent);
+  filter: blur(40px);
+}
+
+/* Each card/tile on a page lists this with an increasing `--stagger` index
+   so a screen full of stat tiles arrives as a gentle cascade instead of
+   popping in as one flat block. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-rise-in {
+  animation: rise-in 420ms var(--ease-out) both;
+  animation-delay: calc(var(--stagger, 0) * 45ms);
 }

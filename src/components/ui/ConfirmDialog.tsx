@@ -23,7 +23,7 @@ export function ConfirmDialog({
 }) {
   return (
     <Modal open={open} onClose={onClose} title={title}>
-      <div className="text-sm text-neutral-70">{body}</div>
+      <div className="text-sm text-text-subtle">{body}</div>
       <div className="mt-6 flex justify-end gap-3">
         <Button variant="secondary" onClick={onClose} disabled={isLoading}>
           Cancel

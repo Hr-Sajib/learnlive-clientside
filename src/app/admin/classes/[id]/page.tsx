@@ -5,8 +5,6 @@ import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { RequireAuth } from '@/components/RequireAuth';
-import { AdminShell } from '@/components/AdminShell';
 import { useEndClassMutation, useGetClassQuery, useLiveAttendanceQuery } from '@/store/api/classApi';
 import { useClassAttendanceQuery, useOverrideAttendanceMutation } from '@/store/api/attendanceApi';
 import { errorMessage } from '@/store/api/baseApi';
@@ -37,24 +35,16 @@ export default function AdminClassDetailPage() {
 
   if (isLoading) {
     return (
-      <RequireAuth role="admin">
-        <AdminShell>
-          <div className="h-64 animate-pulse rounded-lg bg-neutral-30" />
-        </AdminShell>
-      </RequireAuth>
+          <div className="h-64 animate-pulse rounded-lg bg-surface-sunken" />
     );
   }
 
   if (error || !cls) {
     return (
-      <RequireAuth role="admin">
-        <AdminShell>
           <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
             <p>{errorMessage(error)}</p>
             <button onClick={refetch} className="mt-2 font-medium underline">Try again</button>
           </div>
-        </AdminShell>
-      </RequireAuth>
     );
   }
 
@@ -62,15 +52,11 @@ export default function AdminClassDetailPage() {
   if (cls.status === 'ended') return <AttendanceSheet cls={cls} />;
 
   return (
-    <RequireAuth role="admin">
-      <AdminShell>
         <Card title={cls.title}>
-          <p className="text-sm text-neutral-70">
+          <p className="text-sm text-text-subtle">
             This class is {cls.status === 'scheduled' ? 'scheduled' : 'cancelled'} and has not run yet.
           </p>
         </Card>
-      </AdminShell>
-    </RequireAuth>
   );
 }
 
@@ -89,12 +75,12 @@ function LivePanel({ cls }: { cls: ClassSession }) {
       render: (row) => (
         <div className="flex items-center gap-2">
           <span
-            className={`inline-block h-2 w-2 rounded-full ${row.inRoom ? 'bg-success-600' : 'bg-neutral-40'}`}
+            className={`inline-block h-2 w-2 rounded-full ${row.inRoom ? 'bg-success-600' : 'bg-surface-sunken'}`}
             aria-hidden="true"
           />
           <div>
-            <div className="font-medium text-neutral-100">{row.name}</div>
-            <div className="text-xs text-neutral-70">{row.email}</div>
+            <div className="font-medium text-text">{row.name}</div>
+            <div className="text-xs text-text-subtle">{row.email}</div>
           </div>
         </div>
       ),
@@ -116,15 +102,14 @@ function LivePanel({ cls }: { cls: ClassSession }) {
       render: (row) => (
         <div className="flex items-center gap-2">
           <Badge tone={badgeTone[row.projectedStatus]}>{attendanceTone[row.projectedStatus].label}</Badge>
-          <span className="tabular-nums text-neutral-80">{formatPercent(row.presencePct)}</span>
+          <span className="tabular-nums text-text-subtle">{formatPercent(row.presencePct)}</span>
         </div>
       ),
     },
   ];
 
   return (
-    <RequireAuth role="admin">
-      <AdminShell>
+    <>
         <div className="space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -134,10 +119,10 @@ function LivePanel({ cls }: { cls: ClassSession }) {
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-danger-600" />
                 </span>
                 <Badge tone="red">{classStatusTone.live.label}</Badge>
-                {data && <span className="tabular-nums text-sm text-neutral-70">{formatDuration(data.elapsedMs)}</span>}
+                {data && <span className="tabular-nums text-sm text-text-subtle">{formatDuration(data.elapsedMs)}</span>}
               </div>
-              <h1 className="mt-1 text-lg font-semibold text-neutral-100">{cls.title}</h1>
-              <p className="text-sm text-neutral-70">
+              <h1 className="mt-1 text-lg font-semibold text-text">{cls.title}</h1>
+              <p className="text-sm text-text-subtle">
                 {inRoom} of {rows.length} in the room
               </p>
             </div>
@@ -155,7 +140,7 @@ function LivePanel({ cls }: { cls: ClassSession }) {
           </div>
 
           {isLoading ? (
-            <div className="h-64 animate-pulse rounded-lg bg-neutral-30" />
+            <div className="h-64 animate-pulse rounded-lg bg-surface-sunken" />
           ) : error ? (
             <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
               <p>{errorMessage(error)}</p>
@@ -189,8 +174,7 @@ function LivePanel({ cls }: { cls: ClassSession }) {
             }
           }}
         />
-      </AdminShell>
-    </RequireAuth>
+    </>
   );
 }
 
@@ -208,8 +192,8 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
       header: 'Student',
       render: (row) => (
         <div>
-          <div className="font-medium text-neutral-100">{row.student.name}</div>
-          <div className="text-xs text-neutral-70">{row.student.email}</div>
+          <div className="font-medium text-text">{row.student.name}</div>
+          <div className="text-xs text-text-subtle">{row.student.email}</div>
         </div>
       ),
     },
@@ -220,10 +204,10 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
       render: (row) => (
         <div className="flex items-center gap-2">
           <Badge tone={badgeTone[row.status]}>{attendanceTone[row.status].label}</Badge>
-          <span className={`tabular-nums ${row.overridden ? 'text-neutral-50 line-through' : 'text-neutral-80'}`}>
+          <span className={`tabular-nums ${row.overridden ? 'text-text-subtlest line-through' : 'text-text-subtle'}`}>
             {formatPercent(row.presencePct)}
           </span>
-          {row.overridden && <span className="text-xs text-neutral-70">override</span>}
+          {row.overridden && <span className="text-xs text-text-subtle">override</span>}
         </div>
       ),
     },
@@ -241,13 +225,12 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
   ];
 
   return (
-    <RequireAuth role="admin">
-      <AdminShell>
+    <>
         <div className="space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h1 className="text-lg font-semibold text-neutral-100">{cls.title}</h1>
-              <p className="text-sm text-neutral-70">Attendance sheet</p>
+              <h1 className="text-lg font-semibold text-text">{cls.title}</h1>
+              <p className="text-sm text-text-subtle">Attendance sheet</p>
             </div>
             <Button variant="secondary" onClick={() => exportCsv(rows)}>
               Export CSV
@@ -266,7 +249,7 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
           )}
 
           {isLoading ? (
-            <div className="h-64 animate-pulse rounded-lg bg-neutral-30" />
+            <div className="h-64 animate-pulse rounded-lg bg-surface-sunken" />
           ) : error ? (
             <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
               <p>{errorMessage(error)}</p>
@@ -295,8 +278,7 @@ function AttendanceSheet({ cls }: { cls: ClassSession }) {
             }
           }}
         />
-      </AdminShell>
-    </RequireAuth>
+    </>
   );
 }
 
@@ -326,8 +308,8 @@ function OverrideDialog({
     <Modal open={!!row} onClose={onClose} title="Override attendance">
       {row && (
         <form onSubmit={handleSubmit(onConfirm)} className="space-y-4">
-          <p className="text-sm text-neutral-80">
-            Overriding <span className="font-medium text-neutral-100">{row.student.name}</span> (computed{' '}
+          <p className="text-sm text-text-subtle">
+            Overriding <span className="font-medium text-text">{row.student.name}</span> (computed{' '}
             {formatPercent(row.presencePct)}). The computed value is kept for the record.
           </p>
           <Select

@@ -6,8 +6,6 @@ import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { RequireAuth } from '@/components/RequireAuth';
-import { AdminShell } from '@/components/AdminShell';
 import { useBatchAnalyticsQuery, useGetBatchQuery, useListBatchStudentsQuery } from '@/store/api/batchApi';
 import { useCreateClassMutation, useListClassesQuery } from '@/store/api/classApi';
 import { errorMessage } from '@/store/api/baseApi';
@@ -55,27 +53,22 @@ export default function BatchDetailPage() {
 
   if (batchError) {
     return (
-      <RequireAuth role="admin">
-        <AdminShell>
           <div className="rounded-lg border border-danger-500/30 bg-danger-50 p-4 text-sm text-danger-700">
             <p>{errorMessage(batchError)}</p>
             <button onClick={refetchBatch} className="mt-2 font-medium underline">Try again</button>
           </div>
-        </AdminShell>
-      </RequireAuth>
     );
   }
 
   return (
-    <RequireAuth role="admin">
-      <AdminShell>
+    <>
         <div className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h1 className="text-lg font-semibold text-neutral-100">{batch?.title ?? 'Batch'}</h1>
+              <h1 className="text-lg font-semibold text-text">{batch?.title ?? 'Batch'}</h1>
               {batch && (
-                <div className="mt-1 flex items-center gap-2 text-sm text-neutral-70">
-                  <span className="rounded bg-neutral-20 px-2 py-0.5 font-medium text-neutral-90">{batch.code}</span>
+                <div className="mt-1 flex items-center gap-2 text-sm text-text-subtle">
+                  <span className="rounded bg-surface-sunken px-2 py-0.5 font-medium text-text">{batch.code}</span>
                   <span>{batch.studentCount ?? 0} students</span>
                 </div>
               )}
@@ -83,13 +76,13 @@ export default function BatchDetailPage() {
             <Button onClick={() => setShowSchedule(true)}>Schedule class</Button>
           </div>
 
-          <div className="flex gap-1 rounded-lg border border-neutral-30 bg-white p-1">
+          <div className="flex gap-1 rounded-lg border border-border bg-surface p-1">
             {(['roster', 'classes', 'analytics'] as Tab[]).map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
                 className={`flex-1 rounded-md px-3 py-1.5 text-sm capitalize ${
-                  tab === t ? 'bg-neutral-100 text-white' : 'text-neutral-80 hover:bg-neutral-20'
+                  tab === t ? 'bg-accent text-white' : 'text-text-subtle hover:bg-surface-sunken'
                 }`}
               >
                 {t}
@@ -122,8 +115,7 @@ export default function BatchDetailPage() {
             }
           }}
         />
-      </AdminShell>
-    </RequireAuth>
+    </>
   );
 }
 
@@ -132,7 +124,7 @@ function RosterTab({ batchId }: { batchId: string }) {
   const rows = data ?? [];
 
   const columns: TableColumn<BatchStudent>[] = [
-    { key: 'name', header: 'Name', render: (row) => <span className="font-medium text-neutral-100">{row.name}</span> },
+    { key: 'name', header: 'Name', render: (row) => <span className="font-medium text-text">{row.name}</span> },
     { key: 'email', header: 'Email', render: (row) => row.email ?? '—' },
     { key: 'phone', header: 'Phone', render: (row) => row.phone ?? '—' },
     {
@@ -143,7 +135,7 @@ function RosterTab({ batchId }: { batchId: string }) {
     { key: 'joined', header: 'Joined', render: (row) => (row.createdAt ? relativeTime(row.createdAt) : '—') },
   ];
 
-  if (isLoading) return <div className="h-40 animate-pulse rounded-lg bg-neutral-30" />;
+  if (isLoading) return <div className="h-40 animate-pulse rounded-lg bg-surface-sunken" />;
   if (error) return <ListError message={errorMessage(error)} onRetry={refetch} />;
 
   return (
@@ -180,7 +172,7 @@ function ClassesTab({ batchId }: { batchId: string }) {
     },
   ];
 
-  if (isLoading) return <div className="h-40 animate-pulse rounded-lg bg-neutral-30" />;
+  if (isLoading) return <div className="h-40 animate-pulse rounded-lg bg-surface-sunken" />;
   if (error) return <ListError message={errorMessage(error)} onRetry={refetch} />;
 
   return (
@@ -197,12 +189,12 @@ function ClassesTab({ batchId }: { batchId: string }) {
 function AnalyticsTab({ batchId }: { batchId: string }) {
   const { data, isLoading, error, refetch } = useBatchAnalyticsQuery({ id: batchId });
 
-  if (isLoading) return <div className="h-64 animate-pulse rounded-lg bg-neutral-30" />;
+  if (isLoading) return <div className="h-64 animate-pulse rounded-lg bg-surface-sunken" />;
   if (error) return <ListError message={errorMessage(error)} onRetry={refetch} />;
   if (!data) return null;
 
   const perStudentColumns: TableColumn<BatchAnalytics['perStudent'][number]>[] = [
-    { key: 'name', header: 'Student', render: (row) => <span className="font-medium text-neutral-100">{row.name}</span> },
+    { key: 'name', header: 'Student', render: (row) => <span className="font-medium text-text">{row.name}</span> },
     { key: 'email', header: 'Email' },
     { key: 'classesHeld', header: 'Classes', render: (row) => row.classesHeld },
     { key: 'attended', header: 'Attended', render: (row) => row.attended },
@@ -211,7 +203,7 @@ function AnalyticsTab({ batchId }: { batchId: string }) {
   ];
 
   const perClassColumns: TableColumn<BatchAnalytics['perClass'][number]>[] = [
-    { key: 'title', header: 'Class', render: (row) => <span className="font-medium text-neutral-100">{row.title}</span> },
+    { key: 'title', header: 'Class', render: (row) => <span className="font-medium text-text">{row.title}</span> },
     { key: 'date', header: 'Date', render: (row) => formatClassTime(row.date) },
     { key: 'duration', header: 'Duration', render: (row) => formatDuration(row.durationMin * 60_000) },
     { key: 'enrolled', header: 'Enrolled', render: (row) => row.enrolled },
@@ -229,7 +221,7 @@ function AnalyticsTab({ batchId }: { batchId: string }) {
       </div>
 
       <section>
-        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-70">Per student</h2>
+        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-text-subtle">Per student</h2>
         <Card>
           <Table
             columns={perStudentColumns}
@@ -241,7 +233,7 @@ function AnalyticsTab({ batchId }: { batchId: string }) {
       </section>
 
       <section>
-        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-70">Per class</h2>
+        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-text-subtle">Per class</h2>
         <Card>
           <Table
             columns={perClassColumns}

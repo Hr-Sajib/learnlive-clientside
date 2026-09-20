@@ -9,8 +9,8 @@ export default function ErrorBoundary({
   return (
     <main className="flex min-h-dvh items-center justify-center p-4">
       <div className="max-w-md text-center">
-        <h1 className="text-lg font-semibold text-neutral-100">Something went wrong</h1>
-        <p className="mt-2 text-sm text-neutral-70">
+        <h1 className="text-lg font-semibold text-text">Something went wrong</h1>
+        <p className="mt-2 text-sm text-text-subtle">
           An unexpected error occurred. Please try again.
         </p>
         <button

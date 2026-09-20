@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { RequireAuth } from '@/components/RequireAuth';
-import { StudentShell } from '@/components/StudentShell';
+import { Video } from 'lucide-react';
 import { useListClassesQuery } from '@/store/api/classApi';
 import { errorMessage } from '@/store/api/baseApi';
 import type { ClassStatus } from '@/lib/types';
@@ -11,6 +10,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { formatClassTime, formatDuration, classStatusTone } from '@/lib/format';
 
 const toneForStatus = (status: ClassStatus): 'red' | 'slate' => (status === 'live' ? 'red' : 'slate');
@@ -23,10 +23,8 @@ export default function StudentClassesPage() {
   const meta = data?.meta;
 
   return (
-    <RequireAuth role="student">
-      <StudentShell>
-        <div className="space-y-4">
-          <h1 className="text-lg font-semibold text-neutral-100">Classes</h1>
+        <div className="space-y-6">
+          <PageHeader icon={Video} title="Classes" subtitle="Everything scheduled for your batch." />
 
           {isLoading ? (
             <SkeletonRows count={5} />
@@ -43,8 +41,8 @@ export default function StudentClassesPage() {
                 <Card key={cls._id}>
                   <div className="flex flex-wrap items-center justify-between gap-4">
                     <div>
-                      <div className="font-medium text-neutral-100">{cls.title}</div>
-                      <div className="text-sm text-neutral-70">
+                      <div className="font-medium text-text">{cls.title}</div>
+                      <div className="text-sm text-text-subtle">
                         {formatClassTime(cls.scheduledStartAt)} ·{' '}
                         {formatDuration(cls.scheduledDurationMin * 60_000)}
                       </div>
@@ -78,7 +76,7 @@ export default function StudentClassesPage() {
               >
                 Previous
               </Button>
-              <span className="text-sm text-neutral-70">
+              <span className="text-sm text-text-subtle">
                 Page {meta.page} of {meta.totalPages}
               </span>
               <Button
@@ -92,8 +90,6 @@ export default function StudentClassesPage() {
             </div>
           )}
         </div>
-      </StudentShell>
-    </RequireAuth>
   );
 }
 
@@ -101,7 +97,7 @@ function SkeletonRows({ count }: { count: number }) {
   return (
     <div className="space-y-3">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="h-20 animate-pulse rounded-lg border border-neutral-30 bg-neutral-20" />
+        <div key={i} className="h-20 animate-pulse rounded-lg border border-border bg-surface-sunken" />
       ))}
     </div>
   );

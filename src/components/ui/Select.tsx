@@ -16,14 +16,14 @@ export function Select({ label, error, hint, options, className, id, ...rest }: 
   return (
     <div>
       {label && (
-        <label htmlFor={selectId} className="mb-1.5 block text-sm font-medium text-neutral-100">
+        <label htmlFor={selectId} className="mb-1.5 block text-sm font-medium text-text">
           {label}
         </label>
       )}
       <select
         id={selectId}
-        className={`transition-ads h-9 w-full rounded-sm border bg-white px-2.5 text-sm text-neutral-100 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 ${
-          error ? 'border-danger-500' : 'border-neutral-30 hover:border-neutral-40'
+        className={`transition-ads h-9 w-full rounded-sm border bg-surface px-2.5 text-sm text-text focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 ${
+          error ? 'border-danger-500' : 'border-border hover:border-border-strong'
         } ${className ?? ''}`}
         style={{ transitionProperty: 'border-color, box-shadow' }}
         {...rest}
@@ -35,7 +35,7 @@ export function Select({ label, error, hint, options, className, id, ...rest }: 
         ))}
       </select>
       {error && <p className="mt-1 text-sm text-danger-600">{error}</p>}
-      {hint && !error && <p className="mt-1 text-xs text-neutral-70">{hint}</p>}
+      {hint && !error && <p className="mt-1 text-xs text-text-subtle">{hint}</p>}
     </div>
   );
 }

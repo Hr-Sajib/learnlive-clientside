@@ -21,7 +21,7 @@ export function ProgressBar({
 
   return (
     <div
-      className="relative h-2 w-full overflow-hidden rounded-full bg-neutral-20"
+      className="relative h-2 w-full overflow-hidden rounded-full bg-surface-sunken"
       role="progressbar"
       aria-valuenow={Math.round(pct)}
       aria-valuemin={0}
@@ -33,7 +33,7 @@ export function ProgressBar({
       />
       {marker != null && (
         <div
-          className="absolute inset-y-0 w-0.5 bg-neutral-100/50"
+          className="absolute inset-y-0 w-0.5 bg-text/50"
           style={{ left: `${marker}%` }}
           aria-hidden="true"
         />

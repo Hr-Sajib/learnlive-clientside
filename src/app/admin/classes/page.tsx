@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { RequireAuth } from '@/components/RequireAuth';
-import { AdminShell } from '@/components/AdminShell';
+import { Video } from 'lucide-react';
 import {
   useCancelClassMutation,
   useEndClassMutation,
@@ -26,6 +25,7 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Select } from '@/components/ui/Select';
 import { Table, type TableColumn } from '@/components/ui/Table';
 
@@ -70,7 +70,7 @@ export default function AdminClassesPage() {
     {
       key: 'title',
       header: 'Class',
-      render: (row) => <span className="font-medium text-neutral-100">{row.title}</span>,
+      render: (row) => <span className="font-medium text-text">{row.title}</span>,
     },
     { key: 'batch', header: 'Batch', render: (row) => batchCodeOf(row) },
     { key: 'when', header: 'When', render: (row) => formatClassTime(row.scheduledStartAt) },
@@ -113,7 +113,7 @@ export default function AdminClassesPage() {
           {row.status === 'ended' && (
             <Link
               href={`/admin/classes/${row._id}`}
-              className="inline-flex items-center justify-center rounded-md border border-neutral-40 bg-white px-3 py-1.5 text-sm font-medium text-neutral-90 hover:bg-neutral-10"
+              className="inline-flex items-center justify-center rounded-md border border-border-strong bg-surface px-3 py-1.5 text-sm font-medium text-text hover:bg-canvas"
             >
               View attendance
             </Link>
@@ -124,10 +124,9 @@ export default function AdminClassesPage() {
   ];
 
   return (
-    <RequireAuth role="admin">
-      <AdminShell>
-        <div className="space-y-4">
-          <h1 className="text-lg font-semibold text-neutral-100">Classes</h1>
+    <>
+        <div className="space-y-6">
+          <PageHeader icon={Video} title="Classes" subtitle="Every session scheduled across your batches." />
 
           <div className="flex flex-wrap gap-2">
             <Select
@@ -160,7 +159,7 @@ export default function AdminClassesPage() {
           {isLoading ? (
             <div className="space-y-2">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-14 animate-pulse rounded-lg bg-neutral-30" />
+                <div key={i} className="h-14 animate-pulse rounded-lg bg-surface-sunken" />
               ))}
             </div>
           ) : error ? (
@@ -181,7 +180,7 @@ export default function AdminClassesPage() {
               <Button variant="secondary" size="sm" disabled={page <= 1 || isFetching} onClick={() => setPage((p) => p - 1)}>
                 Previous
               </Button>
-              <span className="text-sm text-neutral-70">Page {meta.page} of {meta.totalPages}</span>
+              <span className="text-sm text-text-subtle">Page {meta.page} of {meta.totalPages}</span>
               <Button variant="secondary" size="sm" disabled={page >= meta.totalPages || isFetching} onClick={() => setPage((p) => p + 1)}>
                 Next
               </Button>
@@ -255,8 +254,7 @@ export default function AdminClassesPage() {
             }
           }}
         />
-      </AdminShell>
-    </RequireAuth>
+    </>
   );
 }
 

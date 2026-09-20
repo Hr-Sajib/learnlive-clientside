@@ -5,17 +5,17 @@ type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantClass: Record<ButtonVariant, string> = {
-  primary: 'bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800',
+  primary: 'bg-brand-600 text-white shadow-raised hover:bg-brand-700 hover:shadow-overlay active:bg-brand-800',
   secondary:
-    'border border-neutral-30 bg-white text-neutral-100 hover:bg-neutral-20 active:bg-neutral-30',
-  danger: 'bg-danger-600 text-white hover:bg-danger-700 active:bg-danger-700',
-  ghost: 'text-neutral-80 hover:bg-neutral-20 active:bg-neutral-30',
+    'border border-border bg-surface text-text hover:border-border-strong hover:bg-surface-sunken active:bg-surface-sunken',
+  danger: 'bg-danger-600 text-white shadow-raised hover:bg-danger-700 hover:shadow-overlay active:bg-danger-700',
+  ghost: 'text-text-subtle hover:bg-surface-sunken active:bg-surface-sunken',
 };
 
 const sizeClass: Record<ButtonSize, string> = {
-  sm: 'h-7 px-2.5 text-[13px]',
-  md: 'h-8 px-3.5 text-sm',
-  lg: 'h-10 px-5 text-sm',
+  sm: 'h-8 px-3 text-[13px]',
+  md: 'h-9 px-4 text-sm',
+  lg: 'h-11 px-6 text-sm',
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,8 +35,8 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`transition-ads inline-flex items-center justify-center gap-2 rounded-sm font-medium disabled:cursor-not-allowed disabled:opacity-50 ${variantClass[variant]} ${sizeClass[size]} ${className ?? ''}`}
-      style={{ transitionProperty: 'background-color, border-color, opacity' }}
+      className={`transition-ads inline-flex items-center justify-center gap-2 rounded-sm font-medium active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:active:scale-100 ${variantClass[variant]} ${sizeClass[size]} ${className ?? ''}`}
+      style={{ transitionProperty: 'background-color, border-color, box-shadow, transform, opacity' }}
       disabled={disabled || isLoading}
       {...rest}
     >

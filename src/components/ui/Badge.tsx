@@ -10,7 +10,7 @@ const toneClass: Record<BadgeTone, string> = {
   green: 'bg-success-50 text-success-600',
   amber: 'bg-warning-50 text-warning-600',
   red: 'bg-danger-50 text-danger-600',
-  slate: 'bg-neutral-20 text-neutral-80',
+  slate: 'bg-surface-sunken text-text-subtle',
 };
 
 export function Badge({ tone, children }: { tone: BadgeTone; children: ReactNode }) {
