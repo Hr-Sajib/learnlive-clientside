@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+
+/**
+ * Design tokens. Every page pulls colour from these rather than hard-coding a
+ * palette, so the whole app restyles from one place.
+ */
+@theme {
+  --color-brand-50: oklch(0.97 0.02 250);
+  --color-brand-100: oklch(0.93 0.05 250);
+  --color-brand-500: oklch(0.58 0.19 250);
+  --color-brand-600: oklch(0.51 0.19 250);
+  --color-brand-700: oklch(0.44 0.17 250);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+/* LiveKit's prebuilt UI expects to own its full container. */
+[data-lk-theme] {
+  height: 100%;
+}
