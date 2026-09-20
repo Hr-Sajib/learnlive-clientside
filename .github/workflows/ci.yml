@@ -1,0 +1,28 @@
+name: CI
+
+# Runs before Vercel deploys anything. `next build` type-checks on its own,
+# but running typecheck and lint as their own steps here gives a faster,
+# clearer failure than digging through a Vercel build log.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_URL: https://learnlive-api.onrender.com/api/v1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build

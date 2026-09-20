@@ -18,7 +18,7 @@ import { useListBatchesQuery } from '@/store/api/batchApi';
 import { errorMessage } from '@/store/api/baseApi';
 import { updateClassSchema, type UpdateClassValues } from '@/lib/validation';
 import { classStatusTone, formatClassTime } from '@/lib/format';
-import type { Batch, ClassSession, ClassStatus } from '@/lib/types';
+import type { ClassSession, ClassStatus } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
